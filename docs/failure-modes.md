@@ -1,6 +1,6 @@
 # Failure modes
 
-What goes wrong when agents write a book, which rule prevents it, and how it is
+What goes wrong when agents write a long work, which rule prevents it, and how it is
 detected. Every row is a failure that produces a **successful-looking result** —
 a complete, fluent chapter that is wrong.
 
@@ -11,6 +11,7 @@ a complete, fluent chapter that is wrong.
 | The same thing explained twice | Two chapters both define a term | Continuity ledger; `requires`/`establishes` | `lint` cross-chapter repetition |
 | Register drift | Chapter 12 does not sound like chapter 2 | Style guide with checkable rules | `voice-auditor` |
 | Structural echo | Every chapter opens identically | Writers not reading each other | Reading the assembled draft |
+| Seam failure | Next unit re-introduces what the last just said; both sides recap; opening assumes an unreached state; tonal jump; screenplay prop/position/time jump across the cut | Seams section of the brief | `seam-reviewer` (`longform.py seams`); lint warns on unreviewed or stale seams |
 | Boundary overlap | Two chapters cover the same ground | "Must not cover" in the brief | `continuity-auditor` |
 | Unpaid promise | "We return to this in chapter 9"; chapter 9 does not | Promises section of the ledger | `continuity-auditor` |
 | Contradiction | Chapter 8 contradicts chapter 3's position | Claims section of the ledger | `continuity-auditor` |

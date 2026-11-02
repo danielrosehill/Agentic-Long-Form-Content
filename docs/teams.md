@@ -1,5 +1,8 @@
 # The teams
 
+This describes the `book` case; the other output types (report, screenplay,
+audiobook) differ only in stage 7 — see [`SPEC.md` §1.3](../SPEC.md#13-output-types).
+
 A team is a stage with its own inputs, its own output artefacts, and its own
 agents. **Teams hand off through the repository, not through conversation** —
 which is what allows a stage to be re-run, resumed weeks later, or inspected by a
@@ -44,6 +47,7 @@ flowchart TD
         PR[proofreader]
         VA[voice-auditor]
         CA[continuity-auditor]
+        SR[seam-reviewer]
     end
 
     subgraph GFX[6 · Graphics]
@@ -63,8 +67,8 @@ flowchart TD
         AS --> TS
     end
 
-    PUB --> HO[[Print geometry handoff<br/>kdp-publishing]]
-    HO --> POD([Lulu / KDP])
+    PUB --> HO[[Handoff by output type<br/>book: kdp-publishing]]
+    HO --> POD([Lulu / KDP / PDF / m4b])
 ```
 
 ## 1 · Definition
@@ -89,7 +93,7 @@ by changing an outline, a voice, or a scope decision.
 ## 2 · Planning
 
 **In:** the spec. **Out:** `guides/style-guide.md`, `outline/outline.md`,
-`outline/briefs/*.md`, a populated `book.toml`.
+`outline/briefs/*.md` (each with a Seams section), a populated `longform.toml`.
 
 This stage decides whether parallel drafting is possible at all, because briefs
 are what make chapters independent. A thin brief is not a small problem later; it
@@ -125,6 +129,14 @@ draft.** The batching rule is in [`delegation.md`](delegation.md).
 | `proofreader` | Mechanical correctness, term consistency | One chapter |
 | `voice-auditor` | Drift from the style guide | Samples across chapters |
 | `continuity-auditor` | Repetition, contradiction, unpaid promises | Lint output + summaries |
+| `seam-reviewer` | One join: re-introduction, double recap, assumed state, tonal jump | One seam file |
+
+`longform.py seams` writes `review/seams/<a>__<b>.md` (last ~350 words of unit N,
+first ~350 of N+1, the Seams section of both briefs). One seam-reviewer per
+seam, in parallel, writes `<a>__<b>.review.md` with findings addressed to one
+side or to the outline. Distinct from `continuity-auditor`, which works
+whole-work and not on the joins. For audiobooks the pass reruns on spoken
+scripts (`--layer script`).
 
 **Reviewers write findings; they do not edit prose.** A reviewer that edits is a
 second author with no brief, and its changes are invisible in a way an author's
@@ -149,6 +161,9 @@ labels and near-miss arrows, and neither survives print.
 
 **In:** `manuscript/`, a typesetting profile. **Out:** `dist/manuscript.md`,
 `dist/manuscript.json`, typeset body.
+
+Other types: `dist/report.pdf`; `dist/screenplay.fountain` + PDF; `audio/script/`
++ `dist/audiobook.m4b` (see [`publication.md`](publication.md)).
 
 Concatenation, typesetting to the chosen profile, conformity to the channel.
 Print geometry is handed off — see [`publication.md`](publication.md).

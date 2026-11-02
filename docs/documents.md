@@ -11,15 +11,16 @@ never to keep both and remember which one is current.
 | --- | --- | --- | --- |
 | Brief as given | `spec/brief.md` | The original framing, unedited | No |
 | Interview | `spec/interview.md` | The gaps, filled | No |
-| Book spec | `spec/spec.md` | What it is, who for, scope, length | No |
+| Spec | `spec/spec.md` | What it is, who for, scope, length | No |
 | Style guide | `guides/style-guide.md` | Voice, register, prose conventions | No |
 | Graphics style guide | `guides/graphics-style-guide.md` | Visual language | No |
 | Outline | `outline/outline.md` | Arc, chapter map, boundaries, order | **No** |
-| Chapter briefs | `outline/briefs/<id>.md` | One chapter's contract | No |
+| Unit (chapter) briefs | `outline/briefs/<id>.md` | One chapter's contract | No |
 | Continuity ledger | `continuity.md` | What has been established, and where | No |
-| Manifest | `book.toml` | Structure, status, continuity keys | No |
+| Manifest | `longform.toml` | Structure, status, continuity keys | No |
 
-Nothing on this list appears in the printed book. They are production apparatus.
+The manifest was `book.toml` before v2; old workspaces still load. Nothing on
+this list appears in the finished work. They are production apparatus.
 
 ## The outline never ships
 
@@ -46,6 +47,7 @@ would otherwise come from reading adjacent chapters has to be in it:
 | **Must not cover** | Noticing you are writing a neighbour's material |
 | Sources | Having done the research |
 | Neighbour summaries | Having read the chapters either side |
+| Seams ("Picks up from" / "Hands off to") | Knowing what state the join starts and leaves in |
 
 "Must not cover" is the section people leave out and the one that prevents the
 overlap which shows up as repetition in the assembled manuscript.
@@ -68,6 +70,9 @@ place:
   same example different numbers
 - **Promises** — "we return to this in chapter nine" needs a chapter nine that
   does, or the promise gets cut
+
+For screenplays the ledger also carries **Characters**, **Locations** and
+**Timeline** tables.
 
 A fifth section records **deliberate** repetition, because a reference work
 sometimes should restate itself for readers who open it in the middle. Recording

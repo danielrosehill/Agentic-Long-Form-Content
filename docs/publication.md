@@ -1,7 +1,8 @@
 # Publication
 
 Turning a directory of chapters into something a print-on-demand service will
-accept.
+accept. This is the `book` output type; the other three are at the end.
+Publication is the only stage that differs by `[output] type`.
 
 ## Two jobs, deliberately split
 
@@ -28,7 +29,7 @@ neither.
 
 ## The handoff artefact
 
-`book.py assemble` writes two files:
+`longform.py assemble` writes two files:
 
 - `dist/manuscript.md` — every drafted chapter concatenated in manifest order,
   with part dividers, front matter from the manifest, and undrafted chapters
@@ -67,6 +68,22 @@ already written down.
   alone — a graphics style guide constraint that has to be set before thirty
   figures are drawn.
 
+## Other output types
+
+- **report** — `longform.py export` produces `dist/report.pdf` via pandoc + typst.
+- **screenplay** — units are Fountain files. `longform.py assemble` writes
+  `dist/screenplay.fountain`; `export` makes a PDF via afterwriting/screenplain or
+  a configured `export_cmd`.
+- **audiobook** — the manuscript is the text of record. A `narration-adapter`
+  agent writes a spoken script per chapter to `audio/script/` (numbers, symbols,
+  acronyms and URLs normalised to spoken form; no visual references; optional
+  SSML). `longform.py script-lint` checks them, and `guides/pronunciation.md`
+  keeps pronunciations consistent across chapters. `longform.py render` runs an
+  engine-agnostic `[audio] render_cmd` once per chapter, resumably.
+  `longform.py audio-assemble` joins with gaps, loudness-normalises, embeds
+  chapter marks, tags and cover, and writes `dist/audiobook.m4b` and
+  `dist/audiobook.json`. The seam pass reruns on the scripts (`seams --layer script`).
+
 ## Pre-editing
 
 The review stage sits between drafting and publication and is skippable by
@@ -77,6 +94,6 @@ personal reference printed for one shelf and a book sold to strangers do not
 warrant the same scrutiny, and the pattern does not pretend otherwise. What it
 does insist on is that the choice was made rather than defaulted into.
 
-The mechanical gates are **not** skippable. `book.py lint --strict` runs before
+The mechanical gates are **not** skippable. `longform.py lint --strict` runs before
 production regardless, because an unresolved `[VERIFY:]` marker in a printed
 reference work is not a style question.

@@ -17,6 +17,7 @@ What each agent may read is the architecture. Everything else is implementation.
 | `proofreader` | One chapter, style guide | The rest of the book |
 | `voice-auditor` | Samples across chapters, style guide | Full drafts of everything |
 | `continuity-auditor` | Lint output, chapter summaries, ledger | Full drafts of everything |
+| `seam-reviewer` | One seam file (tails/heads of two units, both briefs' Seams) | Everything else |
 | `graphics-director` | Spec, chapter, graphics guide | Other figures' sources |
 | Publication | `dist/`, the profile | Briefs, research |
 
@@ -41,7 +42,12 @@ its errors compound down the chapter order.
 The **neighbour summary** in each brief is the controlled substitute: two or three
 sentences about the chapters either side, written by the outline architect, which
 tell the writer where its chapter starts and stops without handing it prose to
-imitate.
+imitate. The brief's **Seams** section ("Picks up from" / "Hands off to") does
+the same for the join itself.
+
+The cost is that the joins are where this goes wrong: re-introduction, double
+recap, an opening that assumes a state the previous ending never left. That is
+what the `seam-reviewer` is for; see [`teams.md`](teams.md).
 
 ## The parallelism limit
 
@@ -66,11 +72,11 @@ Reading conflicts produce inconsistency; writing conflicts produce lost work.
 
 - A chapter writer writes **only** `manuscript/<its chapter>.md`, plus its own
   rows in the continuity ledger.
-- Reviewers write **only** to `review/reports/`. They do not edit prose. A
+- Reviewers write **only** to `review/reports/` (seam-reviewers: `review/seams/*.review.md`). They do not edit prose. A
   reviewer that edits is a second author with no brief, and its changes are
   invisible in a way an author's changes are not.
 - The graphics team writes **only** under `graphics/`.
-- Only the planning stage edits `book.toml` structure. Writers update status
+- Only the planning stage edits `longform.toml` structure. Writers update status
   fields; they do not add or reorder chapters.
 
 Fan out freely on reading and research. Keep writes disjoint.
@@ -81,7 +87,7 @@ A subagent's output is a report to be checked, not an established fact. A
 chapter-writing agent can be confidently wrong in exactly the way a status code
 can: it returns a complete, well-formed chapter that quietly invented a citation.
 
-`book.py lint` catches the mechanical half — fabricated paths, missing figure
+`longform.py lint` catches the mechanical half — fabricated paths, missing figure
 specs, unresolved markers, continuity ordering, cross-chapter repetition. It
 cannot catch a fabricated *claim* about something that does exist.
 
